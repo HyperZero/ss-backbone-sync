@@ -1,0 +1,26 @@
+{
+  "name": "ss-backbone-sync",
+  "version": "0.1.0",
+  "author": "Carsten Schmittberger <carsten.schmittberger@gmail.com>",
+  "description": "Backbone Sync for SocketStream",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HyperZero/ss-backbone-sync.git"
+  },
+  "keywords": [
+    "socketstream",
+    "backbone",
+    "sync",
+    "model"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "readme": "#",
+  "readmeFilename": "README.md",
+  "license": "MIT",
+  "engines": {
+    "node": "*"
+  }
+}
