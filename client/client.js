@@ -83,14 +83,14 @@ window.syncedModel = Backbone.Model.extend({
       if (res.e) {
         return console.log(res.e);
       } else {
-        if (res.method === "confirm") {
+        if (res.method === "confirm" && !res.error) {
           registerModel(model, modelConnectionId, res.model[this.idAttribute]);
           this.set(res.model);
         }
-        if (res.method === "update") {
+        if (res.method === "update" && !res.error) {
           this.set(res.model);
         }
-        if (res.method === "delete") {
+        if (res.method === "delete" && !res.error) {
           if (!deleted) {
             this.trigger("destroy");
           }
@@ -172,10 +172,10 @@ window.syncedCollection = Backbone.Collection.extend({
       return this.on("backbone-sync-collection", function(res) {
         console.log("collection downsync", modelConnectionId, res);
         
-        if (res.method === "create") {
+        if (res.method === "create" && !res.error) {
           this.add(res.model);
         }
-        if (res.method === "read") {
+        if (res.method === "read" && !res.error) {
           this.add(res.models, {
             parse: true,
             merge: true

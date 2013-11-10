@@ -1,20 +1,18 @@
 var fs = require('fs');
 
 module.exports = function(responderId, config, ss){
-  var backboneSync, client_api_registration, name, responderName;
-  name = config && config.name || 'backbone';
-  responderName = 'ss-backbone-sync';
+  var name = config && config.name || 'backbone';
+  var responderName = 'ss-backbone-sync';
   if (!config.dontSendLibs) {
-    var backbone, underscore;
-    underscore = fs.readFileSync(__dirname + '/../vendor/underscore-min.js', 'utf8');
-    backbone = fs.readFileSync(__dirname + '/../vendor/backbone-min.js', 'utf8');
+    var underscore = fs.readFileSync(__dirname + '/../vendor/underscore-min.js', 'utf8');
+    var backbone = fs.readFileSync(__dirname + '/../vendor/backbone-min.js', 'utf8');
     ss.client.send('code', 'init', underscore);
     ss.client.send('code', 'init', backbone);
   }
-  backboneSync = fs.readFileSync(__dirname + '/../client/client.js', 'utf8');
+  var backboneSync = fs.readFileSync(__dirname + '/../client/client.js', 'utf8');
   ss.client.send('code', 'init', backboneSync);
   
-  client_api_registration = fs.readFileSync(__dirname + '/../client/register.js', 'utf8');
+  var client_api_registration = fs.readFileSync(__dirname + '/../client/register.js', 'utf8');
   ss.client.send('mod', responderName, client_api_registration);
   
   ss.client.send('code', 'init', "require('" + responderName + "')(" + responderId + ", {}, require('socketstream').send(" + responderId + "));");
