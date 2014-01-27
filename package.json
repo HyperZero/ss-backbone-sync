@@ -1,7 +1,10 @@
 {
   "name": "ss-backbone-sync",
-  "version": "0.1.0",
-  "author": "Carsten Schmittberger <carsten.schmittberger@gmail.com>",
+  "version": "0.1.1",
+  "author": {
+    "name": "Carsten Schmittberger",
+    "email": "carsten.schmittberger@gmail.com"
+  },
   "description": "Backbone Sync for SocketStream",
   "main": "./index.js",
   "repository": {
