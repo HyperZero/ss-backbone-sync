@@ -38,8 +38,13 @@
   };
   
   removeModelListener = function(modelConnectionId, id) {
-    log('removes all listeners', 'modelConnectionId', modelConnectionId, 'modelId', id);
+    log('removes all model listeners', modelConnectionId, id);
     ss.event.removeAllListeners('sync:' + modelConnectionId + ':' + id);
+  };
+  
+  removeCollectionListener = function(modelConnectionId) {
+    log('removes all collection listeners', modelConnectionId);
+    ss.event.removeAllListeners('sync:' + modelConnectionId);
   };
   
   window.syncedModel = Backbone.Model.extend({
@@ -59,6 +64,7 @@
         }
         if(options.success && !resp.error) {
           if(resp.method == 'confirm') {
+            log('## confirm', modelConnectionId, model);
             removeModelListener(modelConnectionId, model.cid);
             registerModel(model, modelConnectionId, modelId);
           }
@@ -102,11 +108,12 @@
       var deleted = false;
       
       return this.on('backbone-sync-model', function(res) {
-        log('Model downsync', modelConnectionId, res);
+        log('Model downsync', modelConnectionId, res.model[this.idAttribute]);
         if (res.e) {
           return log(res.e);
         } else {
           if (res.method === 'confirm' && !res.error) {
+            log('@@ confirm', modelConnectionId, model);
             registerModel(model, modelConnectionId, res.model[this.idAttribute]);
             this.set(res.model);
           }
@@ -124,6 +131,13 @@
           }
         }
       });
+    },
+    
+    // remove model eventListener
+    removeEventListener: function() {
+      var modelname = this.constructor.modelname;
+      var modelConnectionId = this.constructor.modelConnectionId || modelname;
+      removeModelListener(modelConnectionId, this.attributes[this.idAttribute]);
     }
   });
   
@@ -210,6 +224,16 @@
           return this.trigger('change');
         });
       }
+    },
+    
+    // remove collection eventListener and model eventListeners
+    removeEventListener: function() {
+      var modelname = this.constructor.modelname;
+      var modelConnectionId = this.constructor.modelConnectionId || modelname;
+      removeCollectionListener(modelConnectionId);
+      this.each(function(model) {
+        model.removeEventListener();
+      });
     }
   });
   
