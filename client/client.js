@@ -64,7 +64,6 @@
         }
         if(options.success && !resp.error) {
           if(resp.method == 'confirm') {
-            log('## confirm', modelConnectionId, model);
             removeModelListener(modelConnectionId, model.cid);
             registerModel(model, modelConnectionId, modelId);
           }
@@ -113,7 +112,6 @@
           return log(res.e);
         } else {
           if (res.method === 'confirm' && !res.error) {
-            log('@@ confirm', modelConnectionId, model);
             registerModel(model, modelConnectionId, res.model[this.idAttribute]);
             this.set(res.model);
           }
